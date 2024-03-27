@@ -1,0 +1,27 @@
+[tool.black]
+line-length = 120
+target-version = ["py310"]
+
+[tool.isort]
+line_length=120
+multi_line_output=3
+include_trailing_comma="True"
+use_parentheses="True"
+force_grid_wrap=0
+known_first_party="xcnt"
+
+
+[tool.unimport]
+exclude='(__init__.py)|venv|env'
+remove="True"
+
+
+[tool.semantic_release]
+version_variable = "xcnt/drivr/values/__init__.py:__version__"
+commit_parser = "semantic_release.history.angular_parser"
+changelog_file = "CHANGELOG.md"
+build_command = "echo True"
+branch = "main"
+upload_to_repository = false
+upload_to_release = false
+version_source = "tag"

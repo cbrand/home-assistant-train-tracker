@@ -1,0 +1,7 @@
+# Auto-generated from https://github.com/xcnt/xcnt-gardener/blob/main/templates/common/.flake8
+
+[flake8]
+ignore = W503, E203
+max-line-length = 120
+max-complexity = 20
+select = B,C,E,F,W,T4,B9

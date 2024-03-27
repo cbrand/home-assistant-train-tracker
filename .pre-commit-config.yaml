@@ -1,0 +1,63 @@
+repos:
+  - repo: https://github.com/ambv/black
+    rev: "24.3.0"
+    hooks:
+      - id: black
+  - repo: https://github.com/hakancelik96/unimport
+    rev: "1.2.1"
+    hooks:
+      - id: unimport
+        args: ["-r", "--exclude", "(__init__.py)|venv|env"]
+  - repo: https://github.com/pycqa/flake8
+    rev: "7.0.0"
+    hooks:
+      - id: flake8
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-toml
+      - id: end-of-file-fixer
+      - id: debug-statements
+      - id: check-merge-conflict
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: "v1.9.0"
+    hooks:
+      - id: mypy
+        additional_dependencies:
+          - types-requests
+  - repo: https://github.com/MarcoGorelli/absolufy-imports
+    rev: v0.3.1
+    hooks:
+    - id: absolufy-imports
+  - repo: https://github.com/PyCQA/isort
+    rev: "5.13.2"
+    hooks:
+      - id: isort
+        additional_dependencies: [toml]
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.10.0
+    hooks:
+    - id: python-check-blanket-noqa
+    - id: python-no-eval
+  - repo: https://github.com/jumanjihouse/pre-commit-hooks
+    rev: "3.0.0"
+    hooks:
+      - id: script-must-have-extension
+  - repo: local
+    hooks:
+      - id: markdownlint_docker # Configure in .mdlrc
+        name: Markdownlint Docker
+        language: docker_image
+        files: \.(md|mdown|markdown)$
+        exclude: CHANGELOG.md
+        entry: markdownlint/markdownlint
+  - repo: https://github.com/pycqa/pydocstyle
+    rev: 6.3.0
+    hooks:
+      - id: pydocstyle
+        additional_dependencies: [toml]
+        args:
+          # Google convention, and all public requiremenst disabled (for now).
+          # http://www.pydocstyle.org/en/6.1.1/error_codes.html
+          # See Google Python Style Guide https://google.github.io/styleguide/pyguide.html for more infos.
+          - --ignore=D100,D101,D102,D103,D104,D105,D106,D107, D203, D204, D213, D215, D400, D401, D404, D406, D407, D408, D409, D413
