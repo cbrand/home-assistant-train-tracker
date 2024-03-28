@@ -11,7 +11,24 @@
           "station_mappings": "The mappings of station names to station codes. If in the calendar entries the station name is used, this mapping will be used to find the station code. A list of station mappings is separated by a semi-colon where the mapping value is separated by a comma.",
           "max_train_results": "The maximum number of items per train travel to return as alternatives"
         }
+      },
+      "user": {
+        "description": "Submit your train station details and calendar entries for the search queries.",
+        "data": {
+          "calendars": "The calendars to track",
+          "scan_duration_hours": "The duration in hours to scan for events in the calendars for potential train trips",
+          "regular_expression_filters": "The regular expression filters to apply to the calendar entries. This must have a group or can have two named groups with origin and destination in the format (?P<origin>.*)(?P<destination>.*). Multiple entries possible by separating with a semi-colon.",
+          "station_mappings": "The mappings of station names to station codes. If in the calendar entries the station name is used, this mapping will be used to find the station code. A list of station mappings is separated by a semi-colon where the mapping value is separated by a comma.",
+          "max_train_results": "The maximum number of items per train travel to return as alternatives"
+        }
       }
+    },
+    "error": {
+      "station_empty": "Require a station to be entered",
+      "station_not_found": "No station with the provided name found",
+      "expressions_empty": "Require at least one regular expression filter",
+      "mapping_format": "The station mappings must be in the format station_name,station_code and mappings separated by a semi-colon",
+      "unknown": "Unknown Error"
     }
   },
   "config": {

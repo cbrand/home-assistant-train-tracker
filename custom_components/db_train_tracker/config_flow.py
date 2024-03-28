@@ -16,7 +16,9 @@ from custom_components.db_train_tracker.const import (
     CONF_MAPPINGS,
     CONF_MAX_RESULTS,
     DEFAULT_DURATION,
+    DEFAULT_FILTERED_REGULAR_EXPRESSIONS,
     DEFAULT_FILTERED_REGULAR_EXPRESSIONS_STRING,
+    DEFAULT_MAPPINGS,
     DEFAULT_MAPPINGS_STRING,
     DEFAULT_MAX_RESULTS,
     DOMAIN,
@@ -45,6 +47,8 @@ async def _validate_mappings(mappings: str) -> Tuple[Tuple[str, str], ...]:
         return tuple()
     to_return_mappings: List[Tuple[str, str]] = []
     for line in mappings.split(";"):
+        if line.strip() == "":
+            continue
         items = line.strip().split(",")
         if not len(items) == 2:
             raise vol.Invalid("mapping_format")
@@ -56,7 +60,7 @@ async def _validate_mappings(mappings: str) -> Tuple[Tuple[str, str], ...]:
 async def _validate_regular_expressions(expressions: str) -> Tuple[str, ...]:
     if not expressions:
         raise vol.Invalid("expressions_empty")
-    return tuple(item.strip() for item in expressions.split(";"))
+    return tuple(item.strip() for item in expressions.split(";") if item.strip())
 
 
 class OptionsFlowHandler(config_entries.OptionsFlow):
@@ -87,9 +91,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
             user_input[CONF_HOME_STATION] = __get_option(CONF_HOME_STATION, "")
 
             try:
-                user_input[CONF_MAPPINGS] = await _validate_mappings(
-                    user_input.get(CONF_MAPPINGS, DEFAULT_MAPPINGS_STRING)
-                )
+                user_input[CONF_MAPPINGS] = await _validate_mappings(user_input.get(CONF_MAPPINGS, DEFAULT_MAPPINGS))
             except vol.Invalid as error:
                 errors[CONF_MAPPINGS] = error.error_message
 
@@ -97,7 +99,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                 user_input[CONF_FILTERED_REGULAR_EXPRESSIONS] = await _validate_regular_expressions(
                     user_input.get(
                         CONF_FILTERED_REGULAR_EXPRESSIONS,
-                        DEFAULT_FILTERED_REGULAR_EXPRESSIONS_STRING,
+                        DEFAULT_FILTERED_REGULAR_EXPRESSIONS,
                     )
                 )
             except vol.Invalid as error:
