@@ -11,7 +11,7 @@ CONF_MAX_RESULTS = "max_train_results"
 DEFAULT_DURATION = 48
 DEFAULT_MAX_RESULTS = 5
 DEFAULT_FILTERED_REGULAR_EXPRESSIONS = (
-    "Blocker: Travel to (.+)",
+    "Blocker[:]? Travel to (.+)",
     "Train Travel to (.+)",
     "(?P<origin>.+)→(?P<destination>.+)",
 )
