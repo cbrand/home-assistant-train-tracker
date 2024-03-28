@@ -69,6 +69,10 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         """Manage the options."""
         return await self.async_step_menu(user_input)
 
+    async def async_step_user(self, user_input: dict[str, Any] | None = None) -> FlowResult:
+        """Manage the options."""
+        return await self.async_step_menu(user_input)
+
     async def async_step_menu(self, user_input: dict[str, Any] | None = None) -> FlowResult:
         def __get_option(key: str, default: Any) -> Any:
             result = self.config_entry.options.get(key, self.config_entry.data.get(key, default))
