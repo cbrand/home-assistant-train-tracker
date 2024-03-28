@@ -132,14 +132,14 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                             CONF_FILTERED_REGULAR_EXPRESSIONS,
                             DEFAULT_FILTERED_REGULAR_EXPRESSIONS_STRING,
                         ),
-                    ): vol.All(vol.Coerce(str), _validate_regular_expressions),
+                    ): cv.string,
                     vol.Optional(
                         CONF_MAPPINGS,
                         default=__get_option(
                             CONF_MAPPINGS,
                             DEFAULT_MAPPINGS_STRING,
                         ),
-                    ): vol.All(vol.Coerce(str), _validate_mappings),
+                    ): cv.string,
                     vol.Required(CONF_MAX_RESULTS, default=DEFAULT_MAX_RESULTS): cv.positive_int,
                 }
             ),
