@@ -84,13 +84,6 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
 
         errors = {}
         if user_input is not None:
-            unique_id = user_input[CONF_HOME_STATION]
-            try:
-                unique_id = await _validate_station(self.hass, unique_id)
-            except vol.Invalid as error:
-                errors[CONF_HOME_STATION] = error.error_message
-            user_input[CONF_HOME_STATION] = unique_id
-
             try:
                 await _validate_mappings(user_input.get(CONF_MAPPINGS, DEFAULT_MAPPINGS_STRING))
             except vol.Invalid as error:
@@ -107,11 +100,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                 errors[CONF_FILTERED_REGULAR_EXPRESSIONS] = error.error_message
 
             if len(errors) == 0:
-                await self.async_set_unique_id(unique_id)
-                self._abort_if_unique_id_configured()
-                _LOGGER.debug("Initialized new db calendar train tracker with id: {unique_id}")
                 return self.async_create_entry(
-                    title=f"Calendar Train Tracker {user_input[CONF_HOME_STATION]}",
                     data=user_input,
                 )
 
