@@ -84,6 +84,8 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
 
         errors = {}
         if user_input is not None:
+            user_input[CONF_HOME_STATION] = __get_option(CONF_HOME_STATION, "")
+
             try:
                 user_input[CONF_MAPPINGS] = await _validate_mappings(
                     user_input.get(CONF_MAPPINGS, DEFAULT_MAPPINGS_STRING)
@@ -103,6 +105,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
 
             if len(errors) == 0:
                 return self.async_create_entry(
+                    title=f"Calendar Train Tracker {user_input[CONF_HOME_STATION]}",
                     data=user_input,
                 )
 
