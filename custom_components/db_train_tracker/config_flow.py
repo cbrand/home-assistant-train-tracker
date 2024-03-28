@@ -85,12 +85,14 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         errors = {}
         if user_input is not None:
             try:
-                await _validate_mappings(user_input.get(CONF_MAPPINGS, DEFAULT_MAPPINGS_STRING))
+                user_input[CONF_MAPPINGS] = await _validate_mappings(
+                    user_input.get(CONF_MAPPINGS, DEFAULT_MAPPINGS_STRING)
+                )
             except vol.Invalid as error:
                 errors[CONF_MAPPINGS] = error.error_message
 
             try:
-                await _validate_regular_expressions(
+                user_input[CONF_FILTERED_REGULAR_EXPRESSIONS] = await _validate_regular_expressions(
                     user_input.get(
                         CONF_FILTERED_REGULAR_EXPRESSIONS,
                         DEFAULT_FILTERED_REGULAR_EXPRESSIONS_STRING,
