@@ -234,7 +234,12 @@ class TravelInformation(NamedTuple):
         local_reference = dt.as_local(self.reference_time).replace(second=0, microsecond=0)
         normalized_dt = datetime.datetime.strptime(time, "%H:%M")
         new_reference = local_reference.replace(hour=normalized_dt.hour, minute=normalized_dt.minute)
-        if new_reference.time() < local_reference.time():
+        time_check = new_reference
+        if dt.now() > local_reference:
+            # Get one hour in advance as deutsche bahn seems to send data before the current time if
+            # requesting data from earlier than now
+            time_check = time_check + datetime.timedelta(hours=1)
+        if time_check.time() < local_reference.time() and new_reference.time():
             new_reference += datetime.timedelta(days=1)
         return new_reference
 
@@ -498,12 +503,15 @@ class DataGatherer:
                 self.schiene.connections,
                 origin=planned_travel_time.origin,
                 destination=planned_travel_time.destination,
-                dt=planned_travel_time.start,
+                dt=dt.as_local(planned_travel_time.start),
             )
         )
         max_results = config.max_results
         connections = connections[0:max_results]
-        travel_connections = [TravelInformation.from_dict(planned_travel_time.start, conn) for conn in connections]
+        all_travel_connections = [TravelInformation.from_dict(planned_travel_time.start, conn) for conn in connections]
+        # Remove all travel connections which are before the planned travel time
+        travel_connections = [conn for conn in all_travel_connections if conn.departure_dt >= planned_travel_time.start]
+
         return PossibleTravelTimes(
             planned_travel_time=planned_travel_time,
             connections=tuple(travel_connections),
