@@ -1,5 +1,6 @@
 {
   "name": "DB Train Tracker",
   "render_readme": true,
-  "iot_class": "cloud_polling"
+  "iot_class": "cloud_polling",
+  "country": ["DE"]
 }

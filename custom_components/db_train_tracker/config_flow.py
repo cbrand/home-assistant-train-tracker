@@ -196,7 +196,7 @@ class DBTrainTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # typ
                         CONF_FILTERED_REGULAR_EXPRESSIONS,
                         default=DEFAULT_FILTERED_REGULAR_EXPRESSIONS_STRING,
                     ): cv.string,
-                    vol.Required(
+                    vol.Optional(
                         CONF_MAPPINGS,
                         default=DEFAULT_MAPPINGS_STRING,
                     ): cv.string,
