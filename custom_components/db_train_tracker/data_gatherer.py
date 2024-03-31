@@ -138,6 +138,18 @@ class PossibleTravelTimes(NamedTuple):
         return self.connections[1].departure_delay
 
     @property
+    def arrival_delay(self) -> int:
+        if len(self.connections) == 0:
+            return 0
+        return self.connections[0].arrival_delay
+
+    @property
+    def next_arrival_delay(self) -> int:
+        if len(self.connections) < 2:
+            return 0
+        return self.connections[1].arrival_delay
+
+    @property
     def ontime(self) -> bool:
         if len(self.connections) == 0:
             return True
@@ -350,6 +362,12 @@ class GathererResult(NamedTuple):
         return self.travel_times[0].departure_delay
 
     @property
+    def arrival_delay(self) -> int:
+        if len(self.travel_times) == 0:
+            return 0
+        return self.travel_times[0].arrival_delay
+
+    @property
     def products(self) -> tuple[str, ...]:
         if len(self.travel_times) == 0:
             return tuple()
@@ -408,6 +426,12 @@ class GathererResult(NamedTuple):
         if len(self.travel_times) == 0:
             return 0
         return self.travel_times[0].next_departure_delay
+
+    @property
+    def next_arrival_delay(self) -> int:
+        if len(self.travel_times) == 0:
+            return 0
+        return self.travel_times[0].next_arrival_delay
 
     @property
     def next_products(self) -> tuple[str, ...]:

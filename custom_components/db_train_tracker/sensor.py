@@ -106,6 +106,7 @@ class DBTrainTrackerSensor(Entity):
             self.attrs["end_time"] = result.end_string
             self.attrs["time"] = result.time
             self.attrs["delay"] = result.departure_delay
+            self.attrs["arrival_delay"] = result.arrival_delay
             self.attrs["products"] = result.products
             self.attrs["ontime"] = result.ontime
             self.attrs["canceled"] = result.canceled
@@ -115,6 +116,7 @@ class DBTrainTrackerSensor(Entity):
             self.attrs["next_end_time"] = result.next_end_string
             self.attrs["next_time"] = result.next_time
             self.attrs["next_delay"] = result.next_departure_delay
+            self.attrs["next_arrival_delay"] = result.next_arrival_delay
             self.attrs["next_products"] = result.next_products
             self.attrs["next_ontime"] = result.next_ontime
             self.attrs["next_canceled"] = result.next_canceled
