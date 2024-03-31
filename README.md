@@ -53,7 +53,7 @@ It can be for example utilized in a template to display when the next planned tr
 
 <details>
     <summary>
-        <img alt="Example of a template showing a planned train travel ongoing between Düsseldorf Hbf to Fulda Hbf" src="images/template-config.png" />
+        <img alt="Example of a template showing a planned train travel ongoing between Düsseldorf Hbf to Hamburg Hbf" src="images/template-config.png" />
     </summary>
 
 This can be rendered with the following template. Make sure to adjust the sensor to the name which is including your home station.
