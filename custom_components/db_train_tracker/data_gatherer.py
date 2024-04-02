@@ -16,6 +16,7 @@ from custom_components.db_train_tracker.const import (
     DEFAULT_FILTERED_REGULAR_EXPRESSIONS,
     DEFAULT_MAPPINGS,
     DEFAULT_MAX_RESULTS,
+    DEFAULT_REMOVE_TIME_DUPLICATES,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -28,6 +29,7 @@ class GathererConfig(NamedTuple):
     filtered_regular_expressions: Tuple[str, ...] = DEFAULT_FILTERED_REGULAR_EXPRESSIONS
     mappings: Tuple[Tuple[str, str], ...] = DEFAULT_MAPPINGS
     max_results: int = DEFAULT_MAX_RESULTS
+    remove_same_time_duplicates: bool = DEFAULT_REMOVE_TIME_DUPLICATES
 
     def get_compiled_expressions(self) -> Tuple[re.Pattern, ...]:
         return tuple(re.compile(expr, re.IGNORECASE | re.UNICODE) for expr in self.filtered_regular_expressions)
@@ -519,6 +521,25 @@ class DataGatherer:
                         break
         return planned_travel_times
 
+    def _deduplicate_connections(self, connections: List[TravelInformation]) -> List[TravelInformation]:
+        # Remove all connections which have the same departure and arrival time
+        # This is necessary as the db api sometimes returns the same connection twice
+        # if the connection has multiple stops
+        unique_connections = []
+        entries_group: Dict[Tuple[datetime.datetime, datetime.datetime], List[TravelInformation]] = {}
+        for conn in connections:
+            match_tuple = (conn.departure_dt, conn.arrival_dt)
+            entries_group.setdefault(match_tuple, []).append(conn)
+
+        for entry in entries_group:
+            candidates = [candidate for candidate in entries_group[entry] if not candidate.canceled]
+            if len(candidates) == 0:
+                unique_connections.append(entries_group[entry][0])
+            else:
+                unique_connections.append(candidates[0])
+
+        return sorted(unique_connections, key=lambda c: c.departure_dt)
+
     async def get_travel_times_of(
         self, planned_travel_time: PlannedTravelTime, config: GathererConfig
     ) -> PossibleTravelTimes:
@@ -530,11 +551,16 @@ class DataGatherer:
                 dt=dt.as_local(planned_travel_time.start),
             )
         )
-        max_results = config.max_results
-        connections = connections[0:max_results]
+
         all_travel_connections = [TravelInformation.from_dict(planned_travel_time.start, conn) for conn in connections]
+
         # Remove all travel connections which are before the planned travel time
         travel_connections = [conn for conn in all_travel_connections if conn.departure_dt >= planned_travel_time.start]
+        if config.remove_same_time_duplicates:
+            travel_connections = self._deduplicate_connections(travel_connections)
+
+        max_results = config.max_results
+        travel_connections = travel_connections[:max_results]
 
         return PossibleTravelTimes(
             planned_travel_time=planned_travel_time,

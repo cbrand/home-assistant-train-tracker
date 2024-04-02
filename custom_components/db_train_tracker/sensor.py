@@ -14,9 +14,11 @@ from custom_components.db_train_tracker.const import (
     CONF_HOME_STATION,
     CONF_MAPPINGS,
     CONF_MAX_RESULTS,
+    CONF_REMOVE_TIME_DUPLICATES,
     DEFAULT_FILTERED_REGULAR_EXPRESSIONS,
     DEFAULT_MAPPINGS,
     DEFAULT_MAX_RESULTS,
+    DEFAULT_REMOVE_TIME_DUPLICATES,
     DOMAIN,
 )
 from custom_components.db_train_tracker.data_gatherer import DataGatherer, GathererConfig
@@ -59,6 +61,7 @@ class DBTrainTrackerSensor(Entity):
         regular_expression_strings = data.get(CONF_FILTERED_REGULAR_EXPRESSIONS, DEFAULT_FILTERED_REGULAR_EXPRESSIONS)
         mappings = data.get(CONF_MAPPINGS, DEFAULT_MAPPINGS)
         max_results = data.get(CONF_MAX_RESULTS, DEFAULT_MAX_RESULTS)
+        remove_same_time_duplicates = bool(data.get(CONF_REMOVE_TIME_DUPLICATES, DEFAULT_REMOVE_TIME_DUPLICATES))
 
         self.gatherer_config = GathererConfig(
             calendars=tuple(self.calendars),
@@ -66,6 +69,7 @@ class DBTrainTrackerSensor(Entity):
             filtered_regular_expressions=tuple(regular_expression_strings),
             mappings=tuple(mappings),
             max_results=max_results,
+            remove_same_time_duplicates=remove_same_time_duplicates,
         )
 
         self._available = True
