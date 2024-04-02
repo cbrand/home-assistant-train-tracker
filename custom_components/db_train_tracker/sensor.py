@@ -10,11 +10,13 @@ from schiene import Schiene
 
 from custom_components.db_train_tracker.const import (
     CONF_CALENDARS,
+    CONF_DURATION,
     CONF_FILTERED_REGULAR_EXPRESSIONS,
     CONF_HOME_STATION,
     CONF_MAPPINGS,
     CONF_MAX_RESULTS,
     CONF_REMOVE_TIME_DUPLICATES,
+    DEFAULT_DURATION,
     DEFAULT_FILTERED_REGULAR_EXPRESSIONS,
     DEFAULT_MAPPINGS,
     DEFAULT_MAX_RESULTS,
@@ -62,6 +64,7 @@ class DBTrainTrackerSensor(Entity):
         mappings = data.get(CONF_MAPPINGS, DEFAULT_MAPPINGS)
         max_results = data.get(CONF_MAX_RESULTS, DEFAULT_MAX_RESULTS)
         remove_same_time_duplicates = bool(data.get(CONF_REMOVE_TIME_DUPLICATES, DEFAULT_REMOVE_TIME_DUPLICATES))
+        scan_duration_hours = data.get(CONF_DURATION, DEFAULT_DURATION)
 
         self.gatherer_config = GathererConfig(
             calendars=tuple(self.calendars),
@@ -70,6 +73,7 @@ class DBTrainTrackerSensor(Entity):
             mappings=tuple(mappings),
             max_results=max_results,
             remove_same_time_duplicates=remove_same_time_duplicates,
+            scan_duration_hours=scan_duration_hours,
         )
 
         self._available = True
