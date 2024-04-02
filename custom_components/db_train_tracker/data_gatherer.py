@@ -468,6 +468,12 @@ def _convert_destination(destination: str, mappings: Iterable[Tuple[str, str]]) 
     return destination
 
 
+def _force_convert_to_datetime(item: datetime.datetime | datetime.date) -> datetime.datetime:
+    if isinstance(item, datetime.datetime):
+        return dt.as_local(item)
+    return dt.as_local(datetime.datetime(year=item.year, month=item.month, day=item.day))
+
+
 class DataGatherer:
     def __init__(self, hass: HomeAssistant, schiene: Schiene) -> None:
         self.schiene = schiene
@@ -497,7 +503,7 @@ class DataGatherer:
                 CalendarEntryResult(calendar=calendar, **event_dict) for event_dict in payload[calendar]["events"]
             )
         _LOGGER.debug(f"Found {len(calendar_entries)} calendar entries")
-        return sorted(calendar_entries, key=lambda e: e.start_dt)
+        return sorted(calendar_entries, key=lambda e: _force_convert_to_datetime(e.start_dt))
 
     async def get_planned_travel_times(self, config: GathererConfig) -> List[PlannedTravelTime]:
         planned_travel_times = []
