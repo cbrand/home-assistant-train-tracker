@@ -2,8 +2,8 @@ import logging
 from typing import Any, Dict, List, Optional, Tuple
 
 import homeassistant.helpers.config_validation as cv
-import schiene
 import voluptuous as vol
+import weiche
 from homeassistant import config_entries
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.data_entry_flow import FlowResult
@@ -30,7 +30,7 @@ DB_TRAIN_TRACKER_DATA_SCHEMA = vol.Schema({vol.Required("")})
 
 _LOGGER = logging.getLogger(__name__)
 
-SCHIENE = schiene.Schiene()
+SCHIENE = weiche.Schiene()
 
 
 async def _validate_station(hass: HomeAssistant, station: str) -> str:

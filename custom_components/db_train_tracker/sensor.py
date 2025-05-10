@@ -6,7 +6,7 @@ import requests
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.typing import ConfigType
-from schiene import Schiene
+from weiche import Schiene
 
 from custom_components.db_train_tracker.const import (
     CONF_CALENDARS,

@@ -9,7 +9,7 @@ from typing import Any, Dict, Iterable, List, NamedTuple, Tuple
 
 from homeassistant.core import HomeAssistant
 from homeassistant.util import dt
-from schiene import Schiene
+from weiche import Schiene
 
 from custom_components.db_train_tracker.const import (
     DEFAULT_DURATION,
