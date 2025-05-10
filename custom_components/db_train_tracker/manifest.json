@@ -1,12 +1,16 @@
 {
-  "codeowners": ["@cbrand"],
-  "config_flow": true,
-  "dependencies": [],
-  "documentation": "https://github.com/cbrand/home-assistant-db-train-tracker#readme",
-  "domain": "db_train_tracker",
-  "issue_tracker": "https://github.com/cbrand/home-assistant-train-tracker/issues",
-  "iot_class": "cloud_polling",
-  "name": "DB Train Tracker",
-  "requirements": ["schiene>=0.26"],
-  "version": "1.1.2"
+    "codeowners": [
+        "@cbrand"
+    ],
+    "config_flow": true,
+    "dependencies": [],
+    "documentation": "https://github.com/cbrand/home-assistant-db-train-tracker#readme",
+    "domain": "db_train_tracker",
+    "issue_tracker": "https://github.com/cbrand/home-assistant-train-tracker/issues",
+    "iot_class": "cloud_polling",
+    "name": "DB Train Tracker",
+    "requirements": [
+        "weiche[schiene]>=0.9.0"
+    ],
+    "version": "1.1.3"
 }
