@@ -15,6 +15,7 @@ from custom_components.db_train_tracker.const import (
     CONF_HOME_STATION,
     CONF_MAPPINGS,
     CONF_MAX_RESULTS,
+    CONF_PROXY,
     CONF_REMOVE_TIME_DUPLICATES,
     DEFAULT_DURATION,
     DEFAULT_FILTERED_REGULAR_EXPRESSIONS,
@@ -22,6 +23,7 @@ from custom_components.db_train_tracker.const import (
     DEFAULT_MAPPINGS,
     DEFAULT_MAPPINGS_STRING,
     DEFAULT_MAX_RESULTS,
+    DEFAULT_PROXY,
     DEFAULT_REMOVE_TIME_DUPLICATES,
     DOMAIN,
 )
@@ -182,6 +184,8 @@ class DBTrainTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # typ
             except vol.Invalid as error:
                 errors[CONF_FILTERED_REGULAR_EXPRESSIONS] = error.error_message
 
+            user_input[CONF_PROXY] = user_input.get(CONF_PROXY, DEFAULT_PROXY)
+
             if len(errors) == 0:
                 await self.async_set_unique_id(unique_id)
                 self._abort_if_unique_id_configured()
@@ -210,6 +214,7 @@ class DBTrainTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # typ
                     ): cv.string,
                     vol.Required(CONF_MAX_RESULTS, default=DEFAULT_MAX_RESULTS): cv.positive_int,
                     vol.Required(CONF_REMOVE_TIME_DUPLICATES, default=DEFAULT_REMOVE_TIME_DUPLICATES): cv.boolean,
+                    vol.Required(CONF_PROXY, default=DEFAULT_PROXY): cv.string,
                 }
             ),
             errors=errors,

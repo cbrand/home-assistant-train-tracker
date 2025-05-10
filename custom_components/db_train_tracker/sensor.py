@@ -15,11 +15,13 @@ from custom_components.db_train_tracker.const import (
     CONF_HOME_STATION,
     CONF_MAPPINGS,
     CONF_MAX_RESULTS,
+    CONF_PROXY,
     CONF_REMOVE_TIME_DUPLICATES,
     DEFAULT_DURATION,
     DEFAULT_FILTERED_REGULAR_EXPRESSIONS,
     DEFAULT_MAPPINGS,
     DEFAULT_MAX_RESULTS,
+    DEFAULT_PROXY,
     DEFAULT_REMOVE_TIME_DUPLICATES,
     DOMAIN,
 )
@@ -39,7 +41,14 @@ async def async_setup_entry(
     _LOGGER.debug("Sensor async_setup_entry")
     if entry.options:
         config.update(entry.options)
-    schiene = Schiene()
+
+    proxy = config.get(CONF_PROXY, DEFAULT_PROXY)
+    if proxy:
+        _LOGGER.debug("Using proxy: %s", proxy)
+    else:
+        _LOGGER.debug("No proxy configured")
+        proxy = None
+    schiene = Schiene(proxy=proxy)
     sensor = DBTrainTrackerSensor(hass, schiene, config)
     async_add_entities([sensor], update_before_add=True)
 
