@@ -147,6 +147,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                         CONF_REMOVE_TIME_DUPLICATES,
                         default=__get_option(CONF_REMOVE_TIME_DUPLICATES, DEFAULT_REMOVE_TIME_DUPLICATES),
                     ): cv.boolean,
+                    vol.Optional(CONF_PROXY, default=DEFAULT_PROXY): cv.string,
                 }
             ),
             errors=errors,
@@ -214,7 +215,7 @@ class DBTrainTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # typ
                     ): cv.string,
                     vol.Required(CONF_MAX_RESULTS, default=DEFAULT_MAX_RESULTS): cv.positive_int,
                     vol.Required(CONF_REMOVE_TIME_DUPLICATES, default=DEFAULT_REMOVE_TIME_DUPLICATES): cv.boolean,
-                    vol.Required(CONF_PROXY, default=DEFAULT_PROXY): cv.string,
+                    vol.Optional(CONF_PROXY, default=DEFAULT_PROXY): cv.string,
                 }
             ),
             errors=errors,
