@@ -10,7 +10,7 @@
     "iot_class": "cloud_polling",
     "name": "DB Train Tracker",
     "requirements": [
-        "weiche[schiene]>=0.10.0"
+        "weiche[schiene]>=0.10.1"
     ],
     "version": "1.2.2"
 }
