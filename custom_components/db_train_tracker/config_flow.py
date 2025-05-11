@@ -147,7 +147,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                         CONF_REMOVE_TIME_DUPLICATES,
                         default=__get_option(CONF_REMOVE_TIME_DUPLICATES, DEFAULT_REMOVE_TIME_DUPLICATES),
                     ): cv.boolean,
-                    vol.Optional(CONF_PROXY, default=DEFAULT_PROXY): cv.string,
+                    vol.Optional(CONF_PROXY, default=__get_option(CONF_PROXY, DEFAULT_PROXY)): cv.string,
                 }
             ),
             errors=errors,
