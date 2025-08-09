@@ -17,6 +17,7 @@ DEFAULT_FILTERED_REGULAR_EXPRESSIONS = (
     "Train[ ]*Travel[ ]*to(.+)",
     "Train[ ]*Travel[ ]*from(?P<origin>.+) to(?P<destination>.+)",
     "(?P<origin>.+)→(?P<destination>.+)",
+    "(?P<origin>.+)➞(?P<destination>.+)",
 )
 DEFAULT_FILTERED_REGULAR_EXPRESSIONS_STRING = ";".join(DEFAULT_FILTERED_REGULAR_EXPRESSIONS)
 DEFAULT_MAPPINGS: Tuple[Tuple[str, str], ...] = tuple()
